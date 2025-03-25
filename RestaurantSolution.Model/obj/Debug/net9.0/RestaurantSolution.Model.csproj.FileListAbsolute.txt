@@ -1,0 +1,13 @@
+c:\Users\vince\OneDrive\master\AP\RestaurantProject\RestaurantSolution.Model\bin\Debug\net9.0\RestaurantSolution.Model.deps.json
+c:\Users\vince\OneDrive\master\AP\RestaurantProject\RestaurantSolution.Model\bin\Debug\net9.0\RestaurantSolution.Model.dll
+c:\Users\vince\OneDrive\master\AP\RestaurantProject\RestaurantSolution.Model\bin\Debug\net9.0\RestaurantSolution.Model.pdb
+c:\Users\vince\OneDrive\master\AP\RestaurantProject\RestaurantSolution.Model\obj\Debug\net9.0\RestaurantSolution.Model.csproj.AssemblyReference.cache
+c:\Users\vince\OneDrive\master\AP\RestaurantProject\RestaurantSolution.Model\obj\Debug\net9.0\RestaurantSolution.Model.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\vince\OneDrive\master\AP\RestaurantProject\RestaurantSolution.Model\obj\Debug\net9.0\RestaurantSolution.Model.AssemblyInfoInputs.cache
+c:\Users\vince\OneDrive\master\AP\RestaurantProject\RestaurantSolution.Model\obj\Debug\net9.0\RestaurantSolution.Model.AssemblyInfo.cs
+c:\Users\vince\OneDrive\master\AP\RestaurantProject\RestaurantSolution.Model\obj\Debug\net9.0\RestaurantSolution.Model.csproj.CoreCompileInputs.cache
+c:\Users\vince\OneDrive\master\AP\RestaurantProject\RestaurantSolution.Model\obj\Debug\net9.0\RestaurantSolution.Model.sourcelink.json
+c:\Users\vince\OneDrive\master\AP\RestaurantProject\RestaurantSolution.Model\obj\Debug\net9.0\RestaurantSolution.Model.dll
+c:\Users\vince\OneDrive\master\AP\RestaurantProject\RestaurantSolution.Model\obj\Debug\net9.0\refint\RestaurantSolution.Model.dll
+c:\Users\vince\OneDrive\master\AP\RestaurantProject\RestaurantSolution.Model\obj\Debug\net9.0\RestaurantSolution.Model.pdb
+c:\Users\vince\OneDrive\master\AP\RestaurantProject\RestaurantSolution.Model\obj\Debug\net9.0\ref\RestaurantSolution.Model.dll
