@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dNOCIoMaMC4=",
+  "dgSpecHash": "lHn6XucV4ec=",
   "success": true,
-  "projectFilePath": "C:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.Model\\RestaurantSolution.Model.csproj",
+  "projectFilePath": "c:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.Model\\RestaurantSolution.Model.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\vince\\.nuget\\packages\\microsoft.extensions.configuration\\9.0.3\\microsoft.extensions.configuration.9.0.3.nupkg.sha512",
     "C:\\Users\\vince\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\9.0.3\\microsoft.extensions.configuration.abstractions.9.0.3.nupkg.sha512",
