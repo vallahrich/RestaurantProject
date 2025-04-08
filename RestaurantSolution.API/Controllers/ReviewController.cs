@@ -19,21 +19,6 @@ namespace RestaurantSolution.API.Controllers
             _restaurantRepository = restaurantRepository;
         }
 
-        // GET: api/review/{id}
-        [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<Model.Entities.Review> GetReviewById(int id)
-        {
-            var review = _reviewRepository.GetById(id);
-            if (review == null)
-            {
-                return NotFound($"Review with ID {id} not found");
-            }
-            
-            return Ok(review);
-        }
-
         // GET: api/review/restaurant/{restaurantId}
         [HttpGet("restaurant/{restaurantId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -46,16 +31,16 @@ namespace RestaurantSolution.API.Controllers
             {
                 return NotFound($"Restaurant with ID {restaurantId} not found");
             }
-            
+
             var reviews = _reviewRepository.GetReviewsByRestaurantId(restaurantId);
             return Ok(reviews);
         }
 
-        // GET: api/review/user/{userId}
-        [HttpGet("user/{userId}")]
+        // GET: api/review/user/{userId}/restaurant/{restaurantId}
+        [HttpGet("user/{userId}/restaurant/{restaurantId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<IEnumerable<Model.Entities.Review>> GetReviewsByUserId(int userId)
+        public ActionResult<Model.Entities.Review> GetUserReviewForRestaurant(int userId, int restaurantId)
         {
             // Check if user exists
             var user = _userRepository.GetUserById(userId);
@@ -63,9 +48,21 @@ namespace RestaurantSolution.API.Controllers
             {
                 return NotFound($"User with ID {userId} not found");
             }
-            
-            var reviews = _reviewRepository.GetReviewsByUserId(userId);
-            return Ok(reviews);
+
+            // Check if restaurant exists
+            var restaurant = _restaurantRepository.GetById(restaurantId);
+            if (restaurant == null)
+            {
+                return NotFound($"Restaurant with ID {restaurantId} not found");
+            }
+
+            var review = _reviewRepository.GetUserReviewForRestaurant(userId, restaurantId);
+            if (review == null)
+            {
+                return NotFound($"Review for restaurant ID {restaurantId} by user ID {userId} not found");
+            }
+
+            return Ok(review);
         }
 
         // POST: api/review
@@ -81,12 +78,19 @@ namespace RestaurantSolution.API.Controllers
             {
                 return NotFound($"User with ID {review.userId} not found");
             }
-            
+
             // Check if restaurant exists
             var restaurant = _restaurantRepository.GetById(review.restaurantId);
             if (restaurant == null)
             {
                 return NotFound($"Restaurant with ID {review.restaurantId} not found");
+            }
+
+            // Check if user already has a review for this restaurant
+            var existingReview = _reviewRepository.GetUserReviewForRestaurant(review.userId, review.restaurantId);
+            if (existingReview != null)
+            {
+                return Conflict($"User already has a review for this restaurant");
             }
 
             bool success = _reviewRepository.InsertReview(review);
@@ -95,7 +99,9 @@ namespace RestaurantSolution.API.Controllers
                 return BadRequest("Failed to create review");
             }
 
-            return CreatedAtAction(nameof(GetReviewById), new { id = review.reviewId }, review);
+            return CreatedAtAction(nameof(GetUserReviewForRestaurant),
+                                  new { userId = review.userId, restaurantId = review.restaurantId },
+                                  review);
         }
 
         // PUT: api/review
@@ -105,18 +111,15 @@ namespace RestaurantSolution.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult UpdateReview(Model.Entities.Review review)
         {
-            // Check if review exists
-            var existingReview = _reviewRepository.GetById(review.reviewId);
+            // Check if the review exists and belongs to this user
+            var existingReview = _reviewRepository.GetUserReviewForRestaurant(review.userId, review.restaurantId);
             if (existingReview == null)
             {
-                return NotFound($"Review with ID {review.reviewId} not found");
+                return NotFound("Review not found or doesn't belong to this user");
             }
-            
-            // Ensure user owns the review
-            if (existingReview.userId != review.userId)
-            {
-                return BadRequest("You can only update your own reviews");
-            }
+
+            // Update with the existing review ID
+            review.reviewId = existingReview.reviewId;
 
             bool success = _reviewRepository.UpdateReview(review);
             if (!success)
@@ -127,28 +130,21 @@ namespace RestaurantSolution.API.Controllers
             return Ok(review);
         }
 
-        // DELETE: api/review/{id}/user/{userId}
-        [HttpDelete("{id}/user/{userId}")]
+        // DELETE: api/review/user/{userId}/restaurant/{restaurantId}
+        [HttpDelete("user/{userId}/restaurant/{restaurantId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public ActionResult DeleteReview(int id, int userId)
+        public ActionResult DeleteUserReviewForRestaurant(int userId, int restaurantId)
         {
-            // Check if review exists
-            var existingReview = _reviewRepository.GetById(id);
+            // Check if the review exists
+            var existingReview = _reviewRepository.GetUserReviewForRestaurant(userId, restaurantId);
             if (existingReview == null)
             {
-                return NotFound($"Review with ID {id} not found");
-            }
-            
-            // Ensure user owns the review
-            if (existingReview.userId != userId)
-            {
-                return StatusCode(StatusCodes.Status403Forbidden, "You can only delete your own reviews");
+                return NotFound("Review not found");
             }
 
-            bool success = _reviewRepository.DeleteReview(id, userId);
+            bool success = _reviewRepository.DeleteReview(existingReview.reviewId, userId);
             if (!success)
             {
                 return BadRequest("Failed to delete review");

@@ -14,7 +14,6 @@ builder.Services.AddSwaggerGen(c =>
 
 // Register repositories
 builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<UserPreferenceRepository>();
 builder.Services.AddScoped<RestaurantRepository>();
 builder.Services.AddScoped<ReviewRepository>();
 builder.Services.AddScoped<BookmarkRepository>();

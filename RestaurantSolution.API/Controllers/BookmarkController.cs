@@ -19,23 +19,6 @@ namespace RestaurantSolution.API.Controllers
             _restaurantRepository = restaurantRepository;
         }
 
-        // GET: api/bookmark/user/{userId}
-        [HttpGet("user/{userId}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<IEnumerable<Model.Entities.Bookmark>> GetBookmarksByUserId(int userId)
-        {
-            // Check if user exists
-            var user = _userRepository.GetUserById(userId);
-            if (user == null)
-            {
-                return NotFound($"User with ID {userId} not found");
-            }
-            
-            var bookmarks = _bookmarkRepository.GetBookmarksByUserId(userId);
-            return Ok(bookmarks);
-        }
-
         // GET: api/bookmark/user/{userId}/restaurants
         [HttpGet("user/{userId}/restaurants")]
         [ProducesResponseType(StatusCodes.Status200OK)]

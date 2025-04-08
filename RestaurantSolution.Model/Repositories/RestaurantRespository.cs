@@ -10,6 +10,39 @@ namespace RestaurantSolution.Model.Repositories
         public RestaurantRepository(IConfiguration configuration) : base(configuration)
         {
         }
+
+        public Restaurant GetById(int id)
+        {
+            NpgsqlConnection dbConn = null;
+            try
+            {
+                dbConn = new NpgsqlConnection(ConnectionString);
+                var cmd = dbConn.CreateCommand();
+                cmd.CommandText = "SELECT * FROM restaurants WHERE restaurant_id = @id";
+                cmd.Parameters.Add("@id", NpgsqlDbType.Integer).Value = id;
+
+                var data = GetData(dbConn, cmd);
+                if (data != null && data.Read())
+                {
+                    return new Restaurant(Convert.ToInt32(data["restaurant_id"]))
+                    {
+                        name = data["name"].ToString(),
+                        address = data["address"].ToString(),
+                        neighborhood = data["neighborhood"].ToString(),
+                        openingHours = data["opening_hours"].ToString(),
+                        cuisine = data["cuisine"].ToString(),
+                        priceRange = data["price_range"].ToString()[0],
+                        dietaryOptions = data["dietary_options"].ToString(),
+                        createdAt = Convert.ToDateTime(data["created_at"])
+                    };
+                }
+                return null;
+            }
+            finally
+            {
+                dbConn?.Close();
+            }
+        }
         public List<Restaurant> FilterRestaurants(string[] neighborhoods = null, string[] cuisines = null,
             char[] priceRanges = null, string[] dietaryOptions = null)
         {

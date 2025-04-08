@@ -69,39 +69,6 @@ namespace RestaurantSolution.Model.Repositories
             }
         }
 
-        public List<User> GetUsers()
-        {
-            NpgsqlConnection dbConn = null;
-            var users = new List<User>();
-            try
-            {
-                dbConn = new NpgsqlConnection(ConnectionString);
-                var cmd = dbConn.CreateCommand();
-                cmd.CommandText = "SELECT * FROM users";
-                
-                var data = GetData(dbConn, cmd);
-                if (data != null)
-                {
-                    while (data.Read())
-                    {
-                        User user = new User(Convert.ToInt32(data["user_id"]))
-                        {
-                            username = data["username"].ToString(),
-                            email = data["email"].ToString(),
-                            passwordHash = data["password_hash"].ToString(),
-                            createdAt = Convert.ToDateTime(data["created_at"])
-                        };
-                        users.Add(user);
-                    }
-                }
-                return users;
-            }
-            finally
-            {
-                dbConn?.Close();
-            }
-        }
-
         public bool InsertUser(User user)
         {
             NpgsqlConnection dbConn = null;
@@ -147,12 +114,10 @@ namespace RestaurantSolution.Model.Repositories
                 var cmd = dbConn.CreateCommand();
                 cmd.CommandText = @"
                     UPDATE users SET
-                    username = @username,
-                    email = @email
+                    username = @username
                     WHERE user_id = @userId";
                 
                 cmd.Parameters.AddWithValue("@username", NpgsqlDbType.Text, user.username);
-                cmd.Parameters.AddWithValue("@email", NpgsqlDbType.Text, user.email);
                 cmd.Parameters.AddWithValue("@userId", NpgsqlDbType.Integer, user.userId);
                 
                 bool result = UpdateData(dbConn, cmd);
@@ -246,7 +211,5 @@ namespace RestaurantSolution.Model.Repositories
                 dbConn?.Close();
             }
         }
-
     }
 }
-
