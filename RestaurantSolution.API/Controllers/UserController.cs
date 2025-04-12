@@ -6,11 +6,11 @@ namespace RestaurantSolution.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class User : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly UserRepository _userRepository;
 
-        public User(UserRepository userRepository)
+        public UserController(UserRepository userRepository)
         {
             _userRepository = userRepository;
         }

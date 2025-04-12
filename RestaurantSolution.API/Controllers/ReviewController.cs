@@ -2,28 +2,28 @@ using Microsoft.AspNetCore.Mvc;
 using RestaurantSolution.Model.Entities;
 using RestaurantSolution.Model.Repositories;
 
-namespace RestaurantSolution.Controllers
+namespace RestaurantSolution.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class Review : ControllerBase
+    public class ReviewController : ControllerBase
     {
         private readonly ReviewRepository _reviewRepository;
         private readonly UserRepository _userRepository;
         private readonly RestaurantRepository _restaurantRepository;
 
-        public Review(ReviewRepository reviewRepository, UserRepository userRepository, RestaurantRepository restaurantRepository)
+        public ReviewController(ReviewRepository reviewRepository, UserRepository userRepository, RestaurantRepository restaurantRepository)
         {
             _reviewRepository = reviewRepository;
             _userRepository = userRepository;
             _restaurantRepository = restaurantRepository;
         }
 
-        // GET: api/review/restaurant/{restaurantId}
+        // GET: api/reviewcontroller/restaurant/{restaurantId}
         [HttpGet("restaurant/{restaurantId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<IEnumerable<Model.Entities.Review>> GetReviewsByRestaurantId(int restaurantId)
+        public ActionResult<IEnumerable<Review>> GetReviewsByRestaurantId(int restaurantId)
         {
             // Check if restaurant exists
             var restaurant = _restaurantRepository.GetById(restaurantId);
@@ -36,11 +36,11 @@ namespace RestaurantSolution.Controllers
             return Ok(reviews);
         }
 
-        // GET: api/review/user/{userId}/restaurant/{restaurantId}
+        // GET: api/reviewcontroller/user/{userId}/restaurant/{restaurantId}
         [HttpGet("user/{userId}/restaurant/{restaurantId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<Model.Entities.Review> GetUserReviewForRestaurant(int userId, int restaurantId)
+        public ActionResult<Review> GetUserReviewForRestaurant(int userId, int restaurantId)
         {
             // Check if user exists
             var user = _userRepository.GetUserById(userId);
@@ -65,13 +65,13 @@ namespace RestaurantSolution.Controllers
             return Ok(review);
         }
 
-        // POST: api/review
+        // POST: api/reviewcontroller
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public ActionResult<Model.Entities.Review> CreateReview(Model.Entities.Review review)
+        public ActionResult<Review> CreateReview(Review review)
         {
             // Check if user exists
             var user = _userRepository.GetUserById(review.userId);
@@ -94,7 +94,7 @@ namespace RestaurantSolution.Controllers
                 return Conflict($"User already has a review for this restaurant");
             }
 
-            // Set navigation properties to null so they're not validated
+            // Clear navigation properties to avoid validation issues
             review.User = null;
             review.Restaurant = null;
 
@@ -104,17 +104,19 @@ namespace RestaurantSolution.Controllers
                 return BadRequest("Failed to create review");
             }
 
-            return CreatedAtAction(nameof(GetUserReviewForRestaurant),
-                                   new { userId = review.userId, restaurantId = review.restaurantId },
-                                   review);
+            return CreatedAtAction(
+                nameof(GetUserReviewForRestaurant),
+                new { userId = review.userId, restaurantId = review.restaurantId },
+                review
+            );
         }
 
-        // PUT: api/review
+        // PUT: api/reviewcontroller
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult UpdateReview(Model.Entities.Review review)
+        public ActionResult UpdateReview(Review review)
         {
             // Check if the review exists and belongs to this user
             var existingReview = _reviewRepository.GetUserReviewForRestaurant(review.userId, review.restaurantId);
@@ -135,7 +137,7 @@ namespace RestaurantSolution.Controllers
             return Ok(review);
         }
 
-        // DELETE: api/review/user/{userId}/restaurant/{restaurantId}
+        // DELETE: api/reviewcontroller/user/{userId}/restaurant/{restaurantId}
         [HttpDelete("user/{userId}/restaurant/{restaurantId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
