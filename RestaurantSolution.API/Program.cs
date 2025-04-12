@@ -18,6 +18,17 @@ builder.Services.AddScoped<RestaurantRepository>();
 builder.Services.AddScoped<ReviewRepository>();
 builder.Services.AddScoped<BookmarkRepository>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,6 +43,8 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseHttpsRedirection();
+//app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+app.UseCors(); // uses the default policy you defined above
 
 app.UseAuthorization();
 

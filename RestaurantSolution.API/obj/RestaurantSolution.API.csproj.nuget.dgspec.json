@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.API\\RestaurantSolution.API.csproj": {}
+    "C:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.API\\RestaurantSolution.API.csproj": {}
   },
   "projects": {
-    "c:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.API\\RestaurantSolution.API.csproj": {
+    "C:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.API\\RestaurantSolution.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.API\\RestaurantSolution.API.csproj",
+        "projectUniqueName": "C:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.API\\RestaurantSolution.API.csproj",
         "projectName": "RestaurantSolution.API",
-        "projectPath": "c:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.API\\RestaurantSolution.API.csproj",
+        "projectPath": "C:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.API\\RestaurantSolution.API.csproj",
         "packagesPath": "C:\\Users\\vince\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.API\\obj\\",
+        "outputPath": "C:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\vince\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,8 +26,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "c:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.Model\\RestaurantSolution.Model.csproj": {
-                "projectPath": "c:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.Model\\RestaurantSolution.Model.csproj"
+              "C:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.Model\\RestaurantSolution.Model.csproj": {
+                "projectPath": "C:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.Model\\RestaurantSolution.Model.csproj"
               }
             }
           }
@@ -80,14 +80,14 @@
         }
       }
     },
-    "c:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.Model\\RestaurantSolution.Model.csproj": {
+    "C:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.Model\\RestaurantSolution.Model.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.Model\\RestaurantSolution.Model.csproj",
+        "projectUniqueName": "C:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.Model\\RestaurantSolution.Model.csproj",
         "projectName": "RestaurantSolution.Model",
-        "projectPath": "c:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.Model\\RestaurantSolution.Model.csproj",
+        "projectPath": "C:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.Model\\RestaurantSolution.Model.csproj",
         "packagesPath": "C:\\Users\\vince\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.Model\\obj\\",
+        "outputPath": "C:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.Model\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\vince\\AppData\\Roaming\\NuGet\\NuGet.Config"

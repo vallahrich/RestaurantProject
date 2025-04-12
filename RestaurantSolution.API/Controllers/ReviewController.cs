@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using RestaurantSolution.Model.Entities;
 using RestaurantSolution.Model.Repositories;
 
-namespace RestaurantSolution.API.Controllers
+namespace RestaurantSolution.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -70,6 +70,7 @@ namespace RestaurantSolution.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public ActionResult<Model.Entities.Review> CreateReview(Model.Entities.Review review)
         {
             // Check if user exists
@@ -93,6 +94,10 @@ namespace RestaurantSolution.API.Controllers
                 return Conflict($"User already has a review for this restaurant");
             }
 
+            // Set navigation properties to null so they're not validated
+            review.User = null;
+            review.Restaurant = null;
+
             bool success = _reviewRepository.InsertReview(review);
             if (!success)
             {
@@ -100,8 +105,8 @@ namespace RestaurantSolution.API.Controllers
             }
 
             return CreatedAtAction(nameof(GetUserReviewForRestaurant),
-                                  new { userId = review.userId, restaurantId = review.restaurantId },
-                                  review);
+                                   new { userId = review.userId, restaurantId = review.restaurantId },
+                                   review);
         }
 
         // PUT: api/review

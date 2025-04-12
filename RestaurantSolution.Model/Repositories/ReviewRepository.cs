@@ -160,5 +160,10 @@ namespace RestaurantSolution.Model.Repositories
                 dbConn?.Close();
             }
         }
+
+        public bool InsertReview(RestaurantSolution.API.Controllers.Review review)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

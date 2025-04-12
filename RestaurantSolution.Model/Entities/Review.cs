@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace RestaurantSolution.Model.Entities
 {
@@ -30,7 +31,10 @@ namespace RestaurantSolution.Model.Entities
         public DateTime createdAt { get; set; } = DateTime.Now;
         
         // Navigation properties
+        [JsonIgnore]  // This prevents serialization issues
         public User User { get; set; }
+        
+        [JsonIgnore]
         public Restaurant Restaurant { get; set; }
     }
 }
