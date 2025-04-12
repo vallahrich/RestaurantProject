@@ -31,10 +31,10 @@ namespace RestaurantSolution.Model.Entities
         public DateTime createdAt { get; set; } = DateTime.Now;
 
         // Navigation properties
-        [JsonIgnore]  // This prevents serialization issues
-        public User User { get; set; }
+        [JsonIgnore]
+        public User? User { get; set; }
 
         [JsonIgnore]
-        public Restaurant Restaurant { get; set; }
+        public Restaurant? Restaurant { get; set; }
     }
 }

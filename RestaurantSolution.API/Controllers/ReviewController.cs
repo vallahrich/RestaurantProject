@@ -65,7 +65,6 @@ namespace RestaurantSolution.API.Controllers
             return Ok(review);
         }
 
-        // POST: api/reviewcontroller
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -73,6 +72,12 @@ namespace RestaurantSolution.API.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public ActionResult<Review> CreateReview(Review review)
         {
+            // Validate the model state
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             // Check if user exists
             var user = _userRepository.GetUserById(review.userId);
             if (user == null)
