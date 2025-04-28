@@ -1,4 +1,5 @@
 using RestaurantSolution.Model.Repositories;
+using RestaurantSolution.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +29,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -42,9 +42,12 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-//app.UseHttpsRedirection();
-//app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
-app.UseCors(); // uses the default policy you defined above
+// Enable CORS
+app.UseCors();
+
+// Add Basic Authentication Middleware
+// Note: This should come before UseAuthorization but after UseCors
+app.UseBasicAuthenticationMiddleware();
 
 app.UseAuthorization();
 

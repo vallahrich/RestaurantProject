@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using RestaurantSolution.Model.Entities;
 using RestaurantSolution.Model.Repositories;
 
@@ -16,6 +17,7 @@ namespace RestaurantSolution.API.Controllers
         }
 
         // GET: api/user/{id}
+        // This endpoint requires authentication
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -30,6 +32,8 @@ namespace RestaurantSolution.API.Controllers
         }
 
         // POST: api/user/login
+        // This endpoint is accessible without authentication
+        [AllowAnonymous]
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -52,6 +56,8 @@ namespace RestaurantSolution.API.Controllers
         }
 
         // POST: api/user/register
+        // This endpoint is accessible without authentication
+        [AllowAnonymous]
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -79,6 +85,7 @@ namespace RestaurantSolution.API.Controllers
         }
 
         // PUT: api/user
+        // This endpoint requires authentication
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -116,6 +123,7 @@ namespace RestaurantSolution.API.Controllers
         }
 
         // PUT: api/user/password
+        // This endpoint requires authentication
         [HttpPut("password")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -145,6 +153,7 @@ namespace RestaurantSolution.API.Controllers
         }
 
         // DELETE: api/user/{id}
+        // This endpoint requires authentication
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
