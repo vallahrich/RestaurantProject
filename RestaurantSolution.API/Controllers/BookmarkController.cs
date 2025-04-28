@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization; // Add this import
 using Microsoft.AspNetCore.Mvc;
 using RestaurantSolution.Model.Entities;
 using RestaurantSolution.Model.Repositories;
@@ -20,6 +21,7 @@ namespace RestaurantSolution.API.Controllers
         }
 
         // GET: api/bookmark/user/{userId}/restaurants
+        [AllowAnonymous] // Make this endpoint public
         [HttpGet("user/{userId}/restaurants")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -37,6 +39,7 @@ namespace RestaurantSolution.API.Controllers
         }
 
         // GET: api/bookmark/check/{userId}/{restaurantId}
+        [AllowAnonymous] // Make this endpoint public
         [HttpGet("check/{userId}/{restaurantId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -61,6 +64,7 @@ namespace RestaurantSolution.API.Controllers
         }
 
         // POST: api/bookmark
+        [AllowAnonymous] // Make this endpoint public
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -108,6 +112,7 @@ namespace RestaurantSolution.API.Controllers
         }
 
         // DELETE: api/bookmark/{userId}/{restaurantId}
+        [AllowAnonymous] // Make this endpoint public
         [HttpDelete("{userId}/{restaurantId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -24,6 +24,20 @@ namespace RestaurantSolution.API.Middleware
         
         public async Task InvokeAsync(HttpContext context)
         {
+            // Allow Swagger UI to bypass authentication
+            if (context.Request.Path.StartsWithSegments("/swagger"))
+            {
+                await _next(context);
+                return;
+            }
+            
+            // Allow Restaurant endpoints to bypass authentication
+            if (context.Request.Path.StartsWithSegments("/api/Restaurant"))
+            {
+                await _next(context);
+                return;
+            }
+            
             // Allow anonymous endpoints to bypass authentication
             // This checks if the endpoint has the [AllowAnonymous] attribute
             if (context.GetEndpoint()?.Metadata.GetMetadata<IAllowAnonymous>() != null)
@@ -45,14 +59,41 @@ namespace RestaurantSolution.API.Middleware
             
             // 3. Extract the encoded credentials by splitting on space
             // The value looks like "Basic am9obi5kb2U6VmVyeVNlY3JldCE="
-            var auth = authHeader.Split([' '])[1];
+            var parts = authHeader.Split(' ');
+            if (parts.Length != 2 || parts[0] != "Basic")
+            {
+                context.Response.StatusCode = 401; // Unauthorized
+                await context.Response.WriteAsync("Invalid Authorization Header format");
+                return;
+            }
+            
+            var base64Credentials = parts[1];
             
             // 4. Decode the base64 encoded credentials back to plain text
-            var usernameAndPassword = Encoding.UTF8.GetString(Convert.FromBase64String(auth));
+            string decodedCredentials;
+            try
+            {
+                var credentialsBytes = Convert.FromBase64String(base64Credentials);
+                decodedCredentials = Encoding.UTF8.GetString(credentialsBytes);
+            }
+            catch (FormatException)
+            {
+                context.Response.StatusCode = 401; // Unauthorized
+                await context.Response.WriteAsync("Invalid Base64 format in credentials");
+                return;
+            }
             
             // 5. Extract username and password which are separated by a colon
-            var username = usernameAndPassword.Split([':'])[0];
-            var password = usernameAndPassword.Split([':'])[1];
+            var credentialParts = decodedCredentials.Split(':');
+            if (credentialParts.Length != 2)
+            {
+                context.Response.StatusCode = 401; // Unauthorized
+                await context.Response.WriteAsync("Invalid credential format");
+                return;
+            }
+            
+            var username = credentialParts[0];
+            var password = credentialParts[1];
             
             // 6. Check if credentials match the expected values
             if (username == USERNAME && password == PASSWORD)

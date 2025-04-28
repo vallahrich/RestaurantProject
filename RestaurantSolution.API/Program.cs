@@ -1,16 +1,43 @@
 using RestaurantSolution.Model.Repositories;
 using RestaurantSolution.API.Middleware;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
 
-// Configure Swagger/OpenAPI
+// Configure Swagger/OpenAPI with authentication
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "Copenhagen Restaurant Explorer API", Version = "v1" });
+    
+    // Add security definition for Basic Authentication
+    c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "basic",
+        In = ParameterLocation.Header,
+        Description = "Basic Authentication. Format: username:password encoded in Base64. Default: john.doe:VerySecret!"
+    });
+    
+    // Make Swagger UI use Basic Authentication
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "basic"
+                }
+            },
+            new string[] {}
+        }
+    });
 });
 
 // Register repositories
@@ -46,7 +73,6 @@ if (app.Environment.IsDevelopment())
 app.UseCors();
 
 // Add Basic Authentication Middleware
-// Note: This should come before UseAuthorization but after UseCors
 app.UseBasicAuthenticationMiddleware();
 
 app.UseAuthorization();

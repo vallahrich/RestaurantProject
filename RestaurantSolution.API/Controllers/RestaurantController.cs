@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization; 
 using Microsoft.AspNetCore.Mvc;
 using RestaurantSolution.Model.Entities;
 using RestaurantSolution.Model.Repositories;
@@ -18,6 +19,7 @@ namespace RestaurantSolution.API.Controllers
         }
 
         // GET: api/restaurant/{id}
+        [AllowAnonymous] // Add this attribute to make the endpoint public
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -33,6 +35,7 @@ namespace RestaurantSolution.API.Controllers
         }
         
         // GET: api/restaurant
+        [AllowAnonymous] // Add this attribute to make the endpoint public
         [HttpGet("filter")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<Model.Entities.Restaurant>> FilterRestaurants(
