@@ -36,11 +36,11 @@ namespace RestaurantSolution.Tests.Controllers
         {
             // Arrange
             int userId = 1;
-            var user = new User { userId = userId };
+            var user = new User { UserId = userId };
             var restaurants = new List<Restaurant>
             {
-                new Restaurant { restaurantId = 1, name = "Restaurant 1" },
-                new Restaurant { restaurantId = 2, name = "Restaurant 2" }
+                new Restaurant { RestaurantId = 1, Name = "Restaurant 1" },
+                new Restaurant { RestaurantId = 2, Name = "Restaurant 2" }
             };
             
             _mockUserRepository.Setup(r => r.GetUserById(userId)).Returns(user);
@@ -82,8 +82,8 @@ namespace RestaurantSolution.Tests.Controllers
             // Arrange
             int userId = 1;
             int restaurantId = 1;
-            var user = new User { userId = userId };
-            var restaurant = new Restaurant { restaurantId = restaurantId };
+            var user = new User { UserId = userId };
+            var restaurant = new Restaurant { RestaurantId = restaurantId };
             bool isBookmarked = true;
             
             _mockUserRepository.Setup(r => r.GetUserById(userId)).Returns(user);
@@ -110,17 +110,17 @@ namespace RestaurantSolution.Tests.Controllers
             // Arrange
             var bookmark = new Bookmark
             {
-                userId = 1,
-                restaurantId = 1,
-                createdAt = DateTime.Now
+                UserId = 1,
+                RestaurantId = 1,
+                CreatedAt = DateTime.Now
             };
             
-            var user = new User { userId = bookmark.userId };
-            var restaurant = new Restaurant { restaurantId = bookmark.restaurantId };
+            var user = new User { UserId = bookmark.UserId };
+            var restaurant = new Restaurant { RestaurantId = bookmark.RestaurantId };
             
-            _mockUserRepository.Setup(r => r.GetUserById(bookmark.userId)).Returns(user);
-            _mockRestaurantRepository.Setup(r => r.GetById(bookmark.restaurantId)).Returns(restaurant);
-            _mockBookmarkRepository.Setup(r => r.IsBookmarked(bookmark.userId, bookmark.restaurantId)).Returns(false);
+            _mockUserRepository.Setup(r => r.GetUserById(bookmark.UserId)).Returns(user);
+            _mockRestaurantRepository.Setup(r => r.GetById(bookmark.RestaurantId)).Returns(restaurant);
+            _mockBookmarkRepository.Setup(r => r.IsBookmarked(bookmark.UserId, bookmark.RestaurantId)).Returns(false);
             _mockBookmarkRepository.Setup(r => r.AddBookmark(It.IsAny<Bookmark>())).Returns(true);
             
             // Act
@@ -136,8 +136,8 @@ namespace RestaurantSolution.Tests.Controllers
             // Arrange
             int userId = 1;
             int restaurantId = 1;
-            var user = new User { userId = userId };
-            var restaurant = new Restaurant { restaurantId = restaurantId };
+            var user = new User { UserId = userId };
+            var restaurant = new Restaurant { RestaurantId = restaurantId };
             
             _mockUserRepository.Setup(r => r.GetUserById(userId)).Returns(user);
             _mockRestaurantRepository.Setup(r => r.GetById(restaurantId)).Returns(restaurant);

@@ -4,7 +4,6 @@ using Moq;
 using RestaurantSolution.API.Controllers;
 using RestaurantSolution.Model.Entities;
 using RestaurantSolution.Model.Repositories;
-using System;
 
 namespace RestaurantSolution.Tests.Controllers
 {
@@ -28,11 +27,11 @@ namespace RestaurantSolution.Tests.Controllers
             int userId = 1;
             var user = new User
             {
-                userId = userId,
-                username = "john.doe",
-                email = "john@example.com",
-                passwordHash = "VerySecret!",
-                createdAt = DateTime.Now
+                UserId = userId,
+                Username = "john.doe",
+                Email = "john@example.com",
+                PasswordHash = "VerySecret!",
+                CreatedAt = DateTime.Now
             };
 
             _mockUserRepository.Setup(r => r.GetUserById(userId)).Returns(user);
@@ -49,8 +48,8 @@ namespace RestaurantSolution.Tests.Controllers
 
             var returnedUser = okResult!.Value as User;
             Assert.IsNotNull(returnedUser);
-            Assert.AreEqual(user.userId, returnedUser!.userId);
-            Assert.AreEqual(user.username, returnedUser.username);
+            Assert.AreEqual(user.UserId, returnedUser!.UserId);
+            Assert.AreEqual(user.Username, returnedUser.Username);
         }
 
         [TestMethod]
@@ -80,11 +79,11 @@ namespace RestaurantSolution.Tests.Controllers
 
             var user = new User
             {
-                userId = 1,
-                username = "john.doe",
-                email = "john@example.com",
-                passwordHash = "VerySecret!",
-                createdAt = DateTime.Now
+                UserId = 1,
+                Username = "john.doe",
+                Email = "john@example.com",
+                PasswordHash = "VerySecret!",
+                CreatedAt = DateTime.Now
             };
 
             _mockUserRepository.Setup(r => r.GetUserByUsername(loginRequest.Username)).Returns(user);
@@ -145,11 +144,11 @@ namespace RestaurantSolution.Tests.Controllers
 
             var user = new User
             {
-                userId = 1,
-                username = "john.doe",
-                email = "john@example.com",
-                passwordHash = "VerySecret!",
-                createdAt = DateTime.Now
+                UserId = 1,
+                Username = "john.doe",
+                Email = "john@example.com",
+                PasswordHash = "VerySecret!",
+                CreatedAt = DateTime.Now
             };
 
             _mockUserRepository.Setup(r => r.GetUserByUsername(loginRequest.Username)).Returns(user);
@@ -167,15 +166,15 @@ namespace RestaurantSolution.Tests.Controllers
             // Arrange
             var newUser = new User
             {
-                username = "newuser",
-                email = "new@example.com",
-                passwordHash = "Password123!"
+                Username = "newuser",
+                Email = "new@example.com",
+                PasswordHash = "Password123!"
             };
 
-            _mockUserRepository.Setup(r => r.UsernameExists(newUser.username)).Returns(false);
-            _mockUserRepository.Setup(r => r.EmailExists(newUser.email)).Returns(false);
+            _mockUserRepository.Setup(r => r.UsernameExists(newUser.Username)).Returns(false);
+            _mockUserRepository.Setup(r => r.EmailExists(newUser.Email)).Returns(false);
             _mockUserRepository.Setup(r => r.InsertUser(It.IsAny<User>()))
-                .Callback<User>(u => u.userId = 5)
+                .Callback<User>(u => u.UserId = 5)
                 .Returns(true);
 
             // Act
@@ -190,8 +189,8 @@ namespace RestaurantSolution.Tests.Controllers
 
             var returnedUser = createdResult!.Value as User;
             Assert.IsNotNull(returnedUser);
-            Assert.AreEqual(newUser.username, returnedUser!.username);
-            Assert.AreEqual(5, returnedUser.userId);
+            Assert.AreEqual(newUser.Username, returnedUser!.Username);
+            Assert.AreEqual(5, returnedUser.UserId);
         }
 
         [TestMethod]
@@ -200,12 +199,12 @@ namespace RestaurantSolution.Tests.Controllers
             // Arrange
             var newUser = new User
             {
-                username = "existinguser",
-                email = "new@example.com",
-                passwordHash = "Password123!"
+                Username = "existinguser",
+                Email = "new@example.com",
+                PasswordHash = "Password123!"
             };
 
-            _mockUserRepository.Setup(r => r.UsernameExists(newUser.username)).Returns(true);
+            _mockUserRepository.Setup(r => r.UsernameExists(newUser.Username)).Returns(true);
 
             // Act
             var result = _controller.Register(newUser);

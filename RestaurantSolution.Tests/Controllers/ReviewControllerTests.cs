@@ -36,11 +36,11 @@ namespace RestaurantSolution.Tests.Controllers
         {
             // Arrange
             int restaurantId = 1;
-            var restaurant = new Restaurant { restaurantId = restaurantId };
+            var restaurant = new Restaurant { RestaurantId = restaurantId };
             var reviews = new List<Review>
             {
-                new Review { reviewId = 1, userId = 1, restaurantId = restaurantId, rating = 4, comment = "Great place!" },
-                new Review { reviewId = 2, userId = 2, restaurantId = restaurantId, rating = 5, comment = "Amazing food!" }
+                new Review { ReviewId = 1, UserId = 1, RestaurantId = restaurantId, Rating = 4, Comment = "Great place!" },
+                new Review { ReviewId = 2, UserId = 2, RestaurantId = restaurantId, Rating = 5, Comment = "Amazing food!" }
             };
             
             _mockRestaurantRepository.Setup(r => r.GetById(restaurantId)).Returns(restaurant);
@@ -82,9 +82,9 @@ namespace RestaurantSolution.Tests.Controllers
             // Arrange
             int userId = 1;
             int restaurantId = 1;
-            var user = new User { userId = userId };
-            var restaurant = new Restaurant { restaurantId = restaurantId };
-            var review = new Review { reviewId = 1, userId = userId, restaurantId = restaurantId, rating = 4, comment = "Great!" };
+            var user = new User { UserId = userId };
+            var restaurant = new Restaurant { RestaurantId = restaurantId };
+            var review = new Review { ReviewId = 1, UserId = userId, RestaurantId = restaurantId, Rating = 4, Comment = "Great!" };
             
             _mockUserRepository.Setup(r => r.GetUserById(userId)).Returns(user);
             _mockRestaurantRepository.Setup(r => r.GetById(restaurantId)).Returns(restaurant);
@@ -102,7 +102,7 @@ namespace RestaurantSolution.Tests.Controllers
             
             var returnedReview = okResult!.Value as Review;
             Assert.IsNotNull(returnedReview);
-            Assert.AreEqual(review.reviewId, returnedReview!.reviewId);
+            Assert.AreEqual(review.ReviewId, returnedReview!.ReviewId);
         }
 
         [TestMethod]
@@ -111,20 +111,20 @@ namespace RestaurantSolution.Tests.Controllers
             // Arrange
             var review = new Review
             {
-                userId = 1,
-                restaurantId = 1,
-                rating = 4,
-                comment = "Great restaurant!"
+                UserId = 1,
+                RestaurantId = 1,
+                Rating = 4,
+                Comment = "Great restaurant!"
             };
             
-            var user = new User { userId = review.userId };
-            var restaurant = new Restaurant { restaurantId = review.restaurantId };
+            var user = new User { UserId = review.UserId };
+            var restaurant = new Restaurant { RestaurantId = review.RestaurantId };
             
-            _mockUserRepository.Setup(r => r.GetUserById(review.userId)).Returns(user);
-            _mockRestaurantRepository.Setup(r => r.GetById(review.restaurantId)).Returns(restaurant);
-            _mockReviewRepository.Setup(r => r.GetUserReviewForRestaurant(review.userId, review.restaurantId)).Returns((Review?)null);
+            _mockUserRepository.Setup(r => r.GetUserById(review.UserId)).Returns(user);
+            _mockRestaurantRepository.Setup(r => r.GetById(review.RestaurantId)).Returns(restaurant);
+            _mockReviewRepository.Setup(r => r.GetUserReviewForRestaurant(review.UserId, review.RestaurantId)).Returns((Review?)null);
             _mockReviewRepository.Setup(r => r.InsertReview(It.IsAny<Review>()))
-                .Callback<Review>(r => r.reviewId = 1)
+                .Callback<Review>(r => r.ReviewId = 1)
                 .Returns(true);
             
             // Act
@@ -139,7 +139,7 @@ namespace RestaurantSolution.Tests.Controllers
             
             var returnedReview = createdResult!.Value as Review;
             Assert.IsNotNull(returnedReview);
-            Assert.AreEqual(1, returnedReview!.reviewId);
+            Assert.AreEqual(1, returnedReview!.ReviewId);
         }
     }
 }

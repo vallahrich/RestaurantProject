@@ -1,4 +1,3 @@
-// In Bookmark.cs
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -11,14 +10,17 @@ namespace RestaurantSolution.Model.Entities
         }
         
         [Required]
-        public int userId { get; set; }
+        [JsonPropertyName("userId")]
+        public int UserId { get; set; }
         
         [Required]
-        public int restaurantId { get; set; }
+        [JsonPropertyName("restaurantId")]
+        public int RestaurantId { get; set; }
         
-        public DateTime createdAt { get; set; } = DateTime.Now;
+        [JsonPropertyName("createdAt")]
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
         
-        // Navigation properties - make nullable and add JsonIgnore
+        // Navigation properties
         [JsonIgnore]
         public User? User { get; set; }
         

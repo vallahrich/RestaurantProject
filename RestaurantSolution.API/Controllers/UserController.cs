@@ -18,11 +18,10 @@ namespace RestaurantSolution.API.Controllers
         }
 
         // GET: api/user/{id}
-        // This endpoint requires authentication
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<Model.Entities.User> GetUserById(int id)
+        public ActionResult<User> GetUserById(int id)
         {
             var user = _userRepository.GetUserById(id);
             if (user == null)
@@ -33,7 +32,6 @@ namespace RestaurantSolution.API.Controllers
         }
 
         // POST: api/user/login
-        // This endpoint is accessible without authentication
         [AllowAnonymous]
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -46,9 +44,7 @@ namespace RestaurantSolution.API.Controllers
                 return Unauthorized("Invalid username or password");
             }
 
-            // In a real app, you'd use a proper password verification method
-            // For simplicity, we're just comparing the hashes directly
-            if (user.passwordHash != request.PasswordHash)
+            if (user.PasswordHash != request.PasswordHash)
             {
                 return Unauthorized("Invalid username or password");
             }
@@ -61,23 +57,22 @@ namespace RestaurantSolution.API.Controllers
         }
 
         // POST: api/user/register
-        // This endpoint is accessible without authentication
         [AllowAnonymous]
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public ActionResult<Model.Entities.User> Register(Model.Entities.User user)
+        public ActionResult<User> Register(User user)
         {
             // Check if username or email already exists
-            if (_userRepository.UsernameExists(user.username))
+            if (_userRepository.UsernameExists(user.Username))
             {
-                return Conflict($"Username '{user.username}' already exists");
+                return Conflict($"Username '{user.Username}' already exists");
             }
 
-            if (_userRepository.EmailExists(user.email))
+            if (_userRepository.EmailExists(user.Email))
             {
-                return Conflict($"Email '{user.email}' already exists");
+                return Conflict($"Email '{user.Email}' already exists");
             }
 
             bool success = _userRepository.InsertUser(user);
@@ -86,37 +81,36 @@ namespace RestaurantSolution.API.Controllers
                 return BadRequest("Failed to create user");
             }
 
-            return CreatedAtAction(nameof(GetUserById), new { id = user.userId }, user);
+            return CreatedAtAction(nameof(GetUserById), new { id = user.UserId }, user);
         }
 
         // PUT: api/user
-        // This endpoint requires authentication
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public ActionResult UpdateUser(Model.Entities.User user)
+        public ActionResult UpdateUser(User user)
         {
             // Check if user exists
-            var existingUser = _userRepository.GetUserById(user.userId);
+            var existingUser = _userRepository.GetUserById(user.UserId);
             if (existingUser == null)
             {
-                return NotFound($"User with ID {user.userId} not found");
+                return NotFound($"User with ID {user.UserId} not found");
             }
 
             // Check if the new username is already taken by another user
-            if (user.username != existingUser.username)
+            if (user.Username != existingUser.Username)
             {
-                var userWithSameUsername = _userRepository.GetUserByUsername(user.username);
-                if (userWithSameUsername != null && userWithSameUsername.userId != user.userId)
+                var userWithSameUsername = _userRepository.GetUserByUsername(user.Username);
+                if (userWithSameUsername != null && userWithSameUsername.UserId != user.UserId)
                 {
-                    return Conflict($"Username '{user.username}' is already taken");
+                    return Conflict($"Username '{user.Username}' is already taken");
                 }
             }
 
             // Don't allow email changes for simplicity
-            user.email = existingUser.email;
+            user.Email = existingUser.Email;
 
             bool success = _userRepository.UpdateUser(user);
             if (!success)
@@ -128,7 +122,6 @@ namespace RestaurantSolution.API.Controllers
         }
 
         // PUT: api/user/password
-        // This endpoint requires authentication
         [HttpPut("password")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -143,7 +136,7 @@ namespace RestaurantSolution.API.Controllers
             }
 
             // Verify old password
-            if (existingUser.passwordHash != request.OldPasswordHash)
+            if (existingUser.PasswordHash != request.OldPasswordHash)
             {
                 return BadRequest("Current password is incorrect");
             }
@@ -158,7 +151,6 @@ namespace RestaurantSolution.API.Controllers
         }
 
         // DELETE: api/user/{id}
-        // This endpoint requires authentication
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

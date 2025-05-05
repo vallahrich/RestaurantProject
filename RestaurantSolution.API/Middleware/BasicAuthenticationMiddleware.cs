@@ -57,11 +57,11 @@ namespace RestaurantSolution.API.Middleware
                 var user = userRepository.GetUserByUsername(username);
                 
                 // Check if user exists and password matches
-                if (user != null && user.passwordHash == password)
+                if (user != null && user.PasswordHash == password)
                 {
                     // Store user information in HttpContext for later use
-                    context.Items["UserId"] = user.userId;
-                    context.Items["Username"] = user.username;
+                    context.Items["UserId"] = user.UserId;
+                    context.Items["Username"] = user.Username;
                     await _next(context);
                 }
                 else

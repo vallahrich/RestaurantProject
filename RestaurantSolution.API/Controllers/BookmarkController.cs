@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization; // Add this import
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantSolution.Model.Entities;
 using RestaurantSolution.Model.Repositories;
@@ -24,7 +24,7 @@ namespace RestaurantSolution.API.Controllers
         [HttpGet("user/{userId}/restaurants")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<IEnumerable<Model.Entities.Restaurant>> GetBookmarkedRestaurants(int userId)
+        public ActionResult<IEnumerable<Restaurant>> GetBookmarkedRestaurants(int userId)
         {
             // Check if user exists
             var user = _userRepository.GetUserById(userId);
@@ -67,7 +67,7 @@ namespace RestaurantSolution.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public ActionResult AddBookmark(Model.Entities.Bookmark bookmark)
+        public ActionResult AddBookmark(Bookmark bookmark)
         {
             // Validate the model state
             if (!ModelState.IsValid)
@@ -76,23 +76,23 @@ namespace RestaurantSolution.API.Controllers
             }
 
             // Check if user exists
-            var user = _userRepository.GetUserById(bookmark.userId);
+            var user = _userRepository.GetUserById(bookmark.UserId);
             if (user == null)
             {
-                return NotFound($"User with ID {bookmark.userId} not found");
+                return NotFound($"User with ID {bookmark.UserId} not found");
             }
 
             // Check if restaurant exists
-            var restaurant = _restaurantRepository.GetById(bookmark.restaurantId);
+            var restaurant = _restaurantRepository.GetById(bookmark.RestaurantId);
             if (restaurant == null)
             {
-                return NotFound($"Restaurant with ID {bookmark.restaurantId} not found");
+                return NotFound($"Restaurant with ID {bookmark.RestaurantId} not found");
             }
 
             // Check if already bookmarked
-            if (_bookmarkRepository.IsBookmarked(bookmark.userId, bookmark.restaurantId))
+            if (_bookmarkRepository.IsBookmarked(bookmark.UserId, bookmark.RestaurantId))
             {
-                return Conflict($"Restaurant with ID {bookmark.restaurantId} is already bookmarked by user with ID {bookmark.userId}");
+                return Conflict($"Restaurant with ID {bookmark.RestaurantId} is already bookmarked by user with ID {bookmark.UserId}");
             }
 
             // Clear navigation properties to avoid validation issues
@@ -105,7 +105,7 @@ namespace RestaurantSolution.API.Controllers
                 return BadRequest("Failed to add bookmark");
             }
 
-            return CreatedAtAction(nameof(IsBookmarked), new { userId = bookmark.userId, restaurantId = bookmark.restaurantId }, bookmark);
+            return CreatedAtAction(nameof(IsBookmarked), new { userId = bookmark.UserId, restaurantId = bookmark.RestaurantId }, bookmark);
         }
 
         // DELETE: api/bookmark/{userId}/{restaurantId}

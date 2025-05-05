@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace RestaurantSolution.Model.Entities
 {
@@ -10,38 +11,43 @@ namespace RestaurantSolution.Model.Entities
 
         public Restaurant(int id)
         {
-            restaurantId = id;
+            RestaurantId = id;
         }
         
-        public int restaurantId { get; set; }
+        [JsonPropertyName("restaurantId")]
+        public int RestaurantId { get; set; }
         
         [Required]
         [MaxLength(100)]
-        public string name { get; set; }
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
         
         [Required]
-        public string address { get; set; }
-        
-        [Required]
-        [MaxLength(50)]
-        public string neighborhood { get; set; }
-        
-        public string openingHours { get; set; }
+        [JsonPropertyName("address")]
+        public string Address { get; set; }
         
         [Required]
         [MaxLength(50)]
-        public string cuisine { get; set; }
+        [JsonPropertyName("neighborhood")]
+        public string Neighborhood { get; set; }
+        
+        [JsonPropertyName("openingHours")]
+        public string OpeningHours { get; set; }
+        
+        [Required]
+        [MaxLength(50)]
+        [JsonPropertyName("cuisine")]
+        public string Cuisine { get; set; }
         
         // L: Low, M: Medium, H: High
         [RegularExpression("^[LMH]$")]
-        public char priceRange { get; set; }
+        [JsonPropertyName("priceRange")]
+        public char PriceRange { get; set; }
         
-        public string dietaryOptions { get; set; }
+        [JsonPropertyName("dietaryOptions")]
+        public string DietaryOptions { get; set; }
         
-        public DateTime createdAt { get; set; } = DateTime.Now;
-        
-        // Navigation properties
-        //public ICollection<Review> Reviews { get; set; }
-        //public ICollection<Bookmark> Bookmarks { get; set; }
+        [JsonPropertyName("createdAt")]
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }

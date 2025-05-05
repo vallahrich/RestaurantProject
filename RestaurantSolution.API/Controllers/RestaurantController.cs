@@ -19,11 +19,11 @@ namespace RestaurantSolution.API.Controllers
         }
 
         // GET: api/restaurant/{id}
-        [AllowAnonymous] // Add this attribute to make the endpoint public
+        [AllowAnonymous]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<Model.Entities.Restaurant> GetRestaurantById(int id)
+        public ActionResult<Restaurant> GetRestaurantById(int id)
         {
             var restaurant = _restaurantRepository.GetById(id);
             if (restaurant == null)
@@ -34,11 +34,11 @@ namespace RestaurantSolution.API.Controllers
             return Ok(restaurant);
         }
 
-        // GET: api/restaurant
-        [AllowAnonymous] // Add this attribute to make the endpoint public
+        // GET: api/restaurant/filter
+        [AllowAnonymous]
         [HttpGet("filter")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<IEnumerable<Model.Entities.Restaurant>> FilterRestaurants(
+        public ActionResult<IEnumerable<Restaurant>> FilterRestaurants(
             [FromQuery] string[] neighborhood = null,
             [FromQuery] string[] cuisine = null,
             [FromQuery] char[] priceRange = null,

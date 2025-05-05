@@ -6,34 +6,33 @@ namespace RestaurantSolution.Model.Entities
 {
     public class User
     {
-        // Add a parameterless constructor for JSON deserialization
         public User()
         {
         }
 
         public User(int id)
         {
-            userId = id;
+            UserId = id;
         }
         
-        public int userId { get; set; }
+        [JsonPropertyName("userId")]
+        public int UserId { get; set; }
         
         [Required]
         [MaxLength(50)]
-        public string username { get; set; }
+        [JsonPropertyName("username")]
+        public string Username { get; set; }
         
         [Required]
         [MaxLength(100)]
-        public string email { get; set; }
+        [JsonPropertyName("email")]
+        public string Email { get; set; }
         
         [Required]
-        public string passwordHash { get; set; }
+        [JsonPropertyName("passwordHash")]
+        public string PasswordHash { get; set; }
         
-        public DateTime createdAt { get; set; } = DateTime.Now;
-        
-        // Navigation properties
-        //public UserPreference Preference { get; set; }
-        //public ICollection<Review> Reviews { get; set; }
-        //public ICollection<Bookmark> Bookmarks { get; set; }
+        [JsonPropertyName("createdAt")]
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }

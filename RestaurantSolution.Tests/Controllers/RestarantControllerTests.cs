@@ -35,14 +35,14 @@ namespace RestaurantSolution.Tests.Controllers
             int restaurantId = 1;
             var restaurant = new Restaurant
             {
-                restaurantId = restaurantId,
-                name = "Test Restaurant",
-                address = "123 Test St",
-                neighborhood = "Downtown",
-                cuisine = "Italian",
-                priceRange = 'M',
-                dietaryOptions = "Vegetarian options",
-                createdAt = DateTime.Now
+                RestaurantId = restaurantId,
+                Name = "Test Restaurant",
+                Address = "123 Test St",
+                Neighborhood = "Downtown",
+                Cuisine = "Italian",
+                PriceRange = 'M',
+                DietaryOptions = "Vegetarian options",
+                CreatedAt = DateTime.Now
             };
             
             _mockRestaurantRepository.Setup(r => r.GetById(restaurantId)).Returns(restaurant);
@@ -59,8 +59,8 @@ namespace RestaurantSolution.Tests.Controllers
             
             var returnedRestaurant = okResult!.Value as Restaurant;
             Assert.IsNotNull(returnedRestaurant);
-            Assert.AreEqual(restaurant.restaurantId, returnedRestaurant!.restaurantId);
-            Assert.AreEqual(restaurant.name, returnedRestaurant.name);
+            Assert.AreEqual(restaurant.RestaurantId, returnedRestaurant!.RestaurantId);
+            Assert.AreEqual(restaurant.Name, returnedRestaurant.Name);
         }
 
         [TestMethod]
@@ -84,8 +84,8 @@ namespace RestaurantSolution.Tests.Controllers
             // Arrange
             var restaurants = new List<Restaurant>
             {
-                new Restaurant { restaurantId = 1, name = "Restaurant 1", cuisine = "Italian", priceRange = 'M' },
-                new Restaurant { restaurantId = 2, name = "Restaurant 2", cuisine = "French", priceRange = 'H' }
+                new Restaurant { RestaurantId = 1, Name = "Restaurant 1", Cuisine = "Italian", PriceRange = 'M' },
+                new Restaurant { RestaurantId = 2, Name = "Restaurant 2", Cuisine = "French", PriceRange = 'H' }
             };
             
             _mockRestaurantRepository.Setup(r => r.FilterRestaurants(

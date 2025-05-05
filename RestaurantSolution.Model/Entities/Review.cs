@@ -11,24 +11,30 @@ namespace RestaurantSolution.Model.Entities
 
         public Review(int id)
         {
-            reviewId = id;
+            ReviewId = id;
         }
 
-        public int reviewId { get; set; }
+        [JsonPropertyName("reviewId")]
+        public int ReviewId { get; set; }
 
         [Required]
-        public int userId { get; set; }
+        [JsonPropertyName("userId")]
+        public int UserId { get; set; }
 
         [Required]
-        public int restaurantId { get; set; }
+        [JsonPropertyName("restaurantId")]
+        public int RestaurantId { get; set; }
 
         [Required]
         [Range(1, 5)]
-        public short rating { get; set; }
+        [JsonPropertyName("rating")]
+        public short Rating { get; set; }
 
-        public string comment { get; set; }
+        [JsonPropertyName("comment")]
+        public string Comment { get; set; }
 
-        public DateTime createdAt { get; set; } = DateTime.Now;
+        [JsonPropertyName("createdAt")]
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         // Navigation properties
         [JsonIgnore]
