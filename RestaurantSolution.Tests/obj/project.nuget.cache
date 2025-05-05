@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "j8Y1I6Gm1ag=",
+  "dgSpecHash": "S0ATnryxSwM=",
   "success": true,
-  "projectFilePath": "C:\\Users\\vince\\OneDrive\\master\\AP\\RestaurantProject\\RestaurantSolution.Tests\\RestaurantSolution.Tests.csproj",
+  "projectFilePath": "C:\\Users\\vince\\OneDrive\\master\\AP\\Backend\\RestaurantSolution.Tests\\RestaurantSolution.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\vince\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
     "C:\\Users\\vince\\.nuget\\packages\\microsoft.applicationinsights\\2.21.0\\microsoft.applicationinsights.2.21.0.nupkg.sha512",
