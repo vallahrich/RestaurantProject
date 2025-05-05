@@ -34,7 +34,7 @@ namespace RestaurantSolution.API.Middleware
                 await context.Response.WriteAsync("Authorization Header value not provided");
                 return;
             }
-            
+/* 
             // 3. Extract the username and password from the value by splitting it on space,
             // as the value looks something like 'Basic am9obi5kb2U6VmVyeVNlY3JldCE='
             var auth = authHeader.Split(' ')[1];
@@ -45,7 +45,9 @@ namespace RestaurantSolution.API.Middleware
             // 5. Extract username and password, which are separated by a colon
             var username = usernameAndPassword.Split(':')[0];
             var password = usernameAndPassword.Split(':')[1];
-            
+*/
+            AuthenticationHelper.Decrypt(authHeader, out string username, out string password);
+
             // 6. Check credentials against database
             using (var scope = _serviceProvider.CreateScope())
             {

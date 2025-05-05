@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using RestaurantSolution.Model.Entities;
 using RestaurantSolution.Model.Repositories;
+using RestaurantSolution.API.Middleware;
 
 namespace RestaurantSolution.API.Controllers
 {
@@ -37,7 +38,7 @@ namespace RestaurantSolution.API.Controllers
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public ActionResult<Model.Entities.User> Login(LoginRequest request)
+        public ActionResult Login(LoginRequest request)
         {
             var user = _userRepository.GetUserByUsername(request.Username);
             if (user == null)
@@ -52,7 +53,11 @@ namespace RestaurantSolution.API.Controllers
                 return Unauthorized("Invalid username or password");
             }
 
-            return Ok(user);
+            // Generate authentication header using AuthenticationHelper
+            var headerValue = AuthenticationHelper.Encrypt(request.Username, request.PasswordHash);
+
+            // Return both user and header value
+            return Ok(new { user = user, headerValue = headerValue });
         }
 
         // POST: api/user/register
@@ -112,7 +117,7 @@ namespace RestaurantSolution.API.Controllers
 
             // Don't allow email changes for simplicity
             user.email = existingUser.email;
-            
+
             bool success = _userRepository.UpdateUser(user);
             if (!success)
             {
