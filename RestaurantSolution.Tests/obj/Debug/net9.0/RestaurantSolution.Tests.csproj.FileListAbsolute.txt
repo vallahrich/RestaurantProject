@@ -186,3 +186,6 @@ C:\Users\vince\OneDrive\master\AP\RestaurantProject\RestaurantSolution.Tests\obj
 C:\Users\vince\OneDrive\master\AP\RestaurantProject\RestaurantSolution.Tests\obj\Debug\net9.0\RestaurantSolution.Tests.pdb
 C:\Users\vince\OneDrive\master\AP\RestaurantProject\RestaurantSolution.Tests\obj\Debug\net9.0\RestaurantSolution.Tests.genruntimeconfig.cache
 C:\Users\vince\OneDrive\master\AP\RestaurantProject\RestaurantSolution.Tests\obj\Debug\net9.0\ref\RestaurantSolution.Tests.dll
+C:\Users\vince\OneDrive\master\AP\RestaurantProject\RestaurantSolution.Tests\bin\Debug\net9.0\Castle.Core.dll
+C:\Users\vince\OneDrive\master\AP\RestaurantProject\RestaurantSolution.Tests\bin\Debug\net9.0\Moq.dll
+C:\Users\vince\OneDrive\master\AP\RestaurantProject\RestaurantSolution.Tests\bin\Debug\net9.0\NSubstitute.dll

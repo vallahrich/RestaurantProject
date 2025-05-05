@@ -5,7 +5,7 @@ using NpgsqlTypes;
 
 namespace RestaurantSolution.Model.Repositories
 {
-    public class RestaurantRepository : BaseRepository
+    public class RestaurantRepository : BaseRepository, IRestaurantRepository
     {
         public RestaurantRepository(IConfiguration configuration) : base(configuration)
         {

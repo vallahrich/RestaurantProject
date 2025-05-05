@@ -9,11 +9,11 @@ namespace RestaurantSolution.API.Controllers
     [Route("api/[controller]")]
     public class ReviewController : ControllerBase
     {
-        private readonly ReviewRepository _reviewRepository;
-        private readonly UserRepository _userRepository;
-        private readonly RestaurantRepository _restaurantRepository;
+        private readonly IReviewRepository _reviewRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IRestaurantRepository _restaurantRepository;
 
-        public ReviewController(ReviewRepository reviewRepository, UserRepository userRepository, RestaurantRepository restaurantRepository)
+        public ReviewController(IReviewRepository reviewRepository, IUserRepository userRepository, IRestaurantRepository restaurantRepository)
         {
             _reviewRepository = reviewRepository;
             _userRepository = userRepository;

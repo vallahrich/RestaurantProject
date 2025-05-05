@@ -5,7 +5,7 @@ using NpgsqlTypes;
 
 namespace RestaurantSolution.Model.Repositories
 {
-    public class BookmarkRepository : BaseRepository
+    public class BookmarkRepository : BaseRepository, IBookmarkRepository
     {
         public BookmarkRepository(IConfiguration configuration) : base(configuration)
         {

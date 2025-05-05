@@ -8,7 +8,8 @@ public class BaseRepository
     protected string ConnectionString { get; }
     public BaseRepository(IConfiguration configuration)
     {
-        ConnectionString = configuration.GetConnectionString("RestaurantDB");
+            ConnectionString = configuration["ConnectionStrings:RestaurantDB"] ?? 
+            throw new ArgumentException("Connection string not found");
     }
     protected NpgsqlDataReader GetData(NpgsqlConnection conn, NpgsqlCommand cmd)
     {

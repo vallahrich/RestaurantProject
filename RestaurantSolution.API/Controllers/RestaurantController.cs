@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization; 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantSolution.Model.Entities;
 using RestaurantSolution.Model.Repositories;
@@ -9,10 +9,10 @@ namespace RestaurantSolution.API.Controllers
     [Route("api/[controller]")]
     public class RestaurantController : ControllerBase
     {
-        private readonly RestaurantRepository _restaurantRepository;
-        private readonly ReviewRepository _reviewRepository;
+        private readonly IRestaurantRepository _restaurantRepository;
+        private readonly IReviewRepository _reviewRepository;
 
-        public RestaurantController(RestaurantRepository restaurantRepository, ReviewRepository reviewRepository)
+        public RestaurantController(IRestaurantRepository restaurantRepository, IReviewRepository reviewRepository)
         {
             _restaurantRepository = restaurantRepository;
             _reviewRepository = reviewRepository;
@@ -33,7 +33,7 @@ namespace RestaurantSolution.API.Controllers
 
             return Ok(restaurant);
         }
-        
+
         // GET: api/restaurant
         [AllowAnonymous] // Add this attribute to make the endpoint public
         [HttpGet("filter")]

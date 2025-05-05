@@ -9,11 +9,11 @@ namespace RestaurantSolution.API.Controllers
     [Route("api/[controller]")]
     public class BookmarkController : ControllerBase
     {
-        private readonly BookmarkRepository _bookmarkRepository;
-        private readonly UserRepository _userRepository;
-        private readonly RestaurantRepository _restaurantRepository;
+        private readonly IBookmarkRepository _bookmarkRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IRestaurantRepository _restaurantRepository;
 
-        public BookmarkController(BookmarkRepository bookmarkRepository, UserRepository userRepository, RestaurantRepository restaurantRepository)
+        public BookmarkController(IBookmarkRepository bookmarkRepository, IUserRepository userRepository, IRestaurantRepository restaurantRepository)
         {
             _bookmarkRepository = bookmarkRepository;
             _userRepository = userRepository;
