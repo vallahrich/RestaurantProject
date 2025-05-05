@@ -39,7 +39,6 @@ namespace RestaurantSolution.API.Controllers
         }
 
         // GET: api/reviewcontroller/user/{userId}/restaurant/{restaurantId}
-        [AllowAnonymous] // Make this endpoint public
         [HttpGet("user/{userId}/restaurant/{restaurantId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -68,7 +67,6 @@ namespace RestaurantSolution.API.Controllers
             return Ok(review);
         }
 
-        [AllowAnonymous] // Make this endpoint public
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -120,8 +118,7 @@ namespace RestaurantSolution.API.Controllers
             );
         }
 
-        // PUT: api/reviewcontroller
-        [AllowAnonymous] // Make this endpoint public
+        // PUT: api/reviewcontrolleric
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -148,7 +145,6 @@ namespace RestaurantSolution.API.Controllers
         }
 
         // DELETE: api/reviewcontroller/user/{userId}/restaurant/{restaurantId}
-        [AllowAnonymous] // Make this endpoint public
         [HttpDelete("user/{userId}/restaurant/{restaurantId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

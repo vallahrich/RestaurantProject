@@ -1,119 +1,78 @@
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using RestaurantSolution.Model.Repositories;
 
 namespace RestaurantSolution.API.Middleware
 {
-    /// <summary>
-    /// Middleware that implements Basic Authentication
-    /// Basic Authentication uses the Authorization header with a value of "Basic <base64-encoded-credentials>"
-    /// The credentials are encoded as "username:password" in base64
-    /// </summary>
     public class BasicAuthenticationMiddleware
     {
-        // Hardcoded credentials - in a real application, these would come from a database
-        private const string USERNAME = "john.doe";
-        private const string PASSWORD = "VerySecret!";
-        
-        // The next middleware in the pipeline
         private readonly RequestDelegate _next;
+        private readonly IServiceProvider _serviceProvider;
         
-        public BasicAuthenticationMiddleware(RequestDelegate next)
+        public BasicAuthenticationMiddleware(RequestDelegate next, IServiceProvider serviceProvider)
         {
             _next = next;
+            _serviceProvider = serviceProvider;
         }
         
         public async Task InvokeAsync(HttpContext context)
         {
-            // Allow Swagger UI to bypass authentication
-            if (context.Request.Path.StartsWithSegments("/swagger"))
-            {
-                await _next(context);
-                return;
-            }
-            
-            // Allow Restaurant endpoints to bypass authentication
-            if (context.Request.Path.StartsWithSegments("/api/Restaurant"))
-            {
-                await _next(context);
-                return;
-            }
-            
-            // Allow anonymous endpoints to bypass authentication
-            // This checks if the endpoint has the [AllowAnonymous] attribute
+            // Bypass authentication for [AllowAnonymous]
             if (context.GetEndpoint()?.Metadata.GetMetadata<IAllowAnonymous>() != null)
             {
                 await _next(context);
                 return;
             }
             
-            // 1. Try to retrieve the Authorization header
+            // 1. Try to retrieve the Request Header containing our secret value
             string? authHeader = context.Request.Headers["Authorization"];
             
-            // 2. If not found, return Unauthorized response
+            // 2. If not found, then return with Unauthorized response
             if (authHeader == null)
             {
-                context.Response.StatusCode = 401; // Unauthorized
+                context.Response.StatusCode = 401;
                 await context.Response.WriteAsync("Authorization Header value not provided");
                 return;
             }
             
-            // 3. Extract the encoded credentials by splitting on space
-            // The value looks like "Basic am9obi5kb2U6VmVyeVNlY3JldCE="
-            var parts = authHeader.Split(' ');
-            if (parts.Length != 2 || parts[0] != "Basic")
-            {
-                context.Response.StatusCode = 401; // Unauthorized
-                await context.Response.WriteAsync("Invalid Authorization Header format");
-                return;
-            }
+            // 3. Extract the username and password from the value by splitting it on space,
+            // as the value looks something like 'Basic am9obi5kb2U6VmVyeVNlY3JldCE='
+            var auth = authHeader.Split(' ')[1];
             
-            var base64Credentials = parts[1];
+            // 4. Convert it from Base64 encoded text, back to normal text
+            var usernameAndPassword = Encoding.UTF8.GetString(Convert.FromBase64String(auth));
             
-            // 4. Decode the base64 encoded credentials back to plain text
-            string decodedCredentials;
-            try
-            {
-                var credentialsBytes = Convert.FromBase64String(base64Credentials);
-                decodedCredentials = Encoding.UTF8.GetString(credentialsBytes);
-            }
-            catch (FormatException)
-            {
-                context.Response.StatusCode = 401; // Unauthorized
-                await context.Response.WriteAsync("Invalid Base64 format in credentials");
-                return;
-            }
+            // 5. Extract username and password, which are separated by a colon
+            var username = usernameAndPassword.Split(':')[0];
+            var password = usernameAndPassword.Split(':')[1];
             
-            // 5. Extract username and password which are separated by a colon
-            var credentialParts = decodedCredentials.Split(':');
-            if (credentialParts.Length != 2)
+            // 6. Check credentials against database
+            using (var scope = _serviceProvider.CreateScope())
             {
-                context.Response.StatusCode = 401; // Unauthorized
-                await context.Response.WriteAsync("Invalid credential format");
-                return;
-            }
-            
-            var username = credentialParts[0];
-            var password = credentialParts[1];
-            
-            // 6. Check if credentials match the expected values
-            if (username == USERNAME && password == PASSWORD)
-            {
-                // If they match, continue to the next middleware
-                await _next(context);
-            }
-            else
-            {
-                // If they don't match, return Unauthorized
-                context.Response.StatusCode = 401;
-                await context.Response.WriteAsync("Incorrect credentials provided");
-                return;
+                var userRepository = scope.ServiceProvider.GetRequiredService<UserRepository>();
+                
+                // Get user from database
+                var user = userRepository.GetUserByUsername(username);
+                
+                // Check if user exists and password matches
+                if (user != null && user.passwordHash == password)
+                {
+                    // Store user information in HttpContext for later use
+                    context.Items["UserId"] = user.userId;
+                    context.Items["Username"] = user.username;
+                    await _next(context);
+                }
+                else
+                {
+                    // If not, then send Unauthorized response
+                    context.Response.StatusCode = 401;
+                    await context.Response.WriteAsync("Incorrect credentials provided");
+                    return;
+                }
             }
         }
     }
     
-    /// <summary>
-    /// Extension method to easily add this middleware to the pipeline
-    /// </summary>
     public static class BasicAuthenticationMiddlewareExtensions
     {
         public static IApplicationBuilder UseBasicAuthenticationMiddleware(this IApplicationBuilder builder)
