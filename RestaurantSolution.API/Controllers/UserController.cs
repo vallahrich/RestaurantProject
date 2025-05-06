@@ -1,3 +1,22 @@
+/// <summary>
+/// Controller that handles user management API endpoints including authentication, registration,
+/// profile updates, and account management.
+/// </summary>
+/// <remarks>
+/// Provides RESTful API endpoints for:
+/// - User retrieval by ID (GET)
+/// - User authentication (login) with token generation
+/// - User registration with duplicate validation
+/// - Username updates with conflict checking
+/// - Password changes with verification
+/// - Account deletion
+/// 
+/// All endpoints use appropriate HTTP status codes and response types for RESTful compliance.
+/// Most endpoints require authentication except those marked with [AllowAnonymous].
+/// The controller follows standard REST conventions and includes validation to ensure
+/// secure user management operations.
+/// </remarks>
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using RestaurantSolution.Model.Entities;
@@ -8,7 +27,7 @@ namespace RestaurantSolution.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController : ControllerBase
+    public class UserController : ControllerBase //from the Microsoft.AspNetCore.Mvc namespace
     {
         private readonly IUserRepository _userRepository;
 
@@ -23,7 +42,7 @@ namespace RestaurantSolution.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<User> GetUserById(int id)
         {
-            var user = _userRepository.GetUserById(id);
+            var user = _userRepository.GetUserById(id); //without FromRoute: default behavior for route parameters
             if (user == null)
             {
                 return NotFound($"User with ID {id} not found");

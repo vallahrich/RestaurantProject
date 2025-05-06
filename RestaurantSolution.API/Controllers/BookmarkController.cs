@@ -1,4 +1,24 @@
-using Microsoft.AspNetCore.Authorization;
+/// <summary>
+/// Controller that handles restaurant bookmark operations through a RESTful API interface.
+/// Provides endpoints for managing user bookmarks for favorite restaurants.
+/// </summary>
+/// <remarks>
+/// Exposes the following API endpoints:
+/// - GET /api/bookmark/user/{userId}/restaurants: Retrieve all restaurants bookmarked by a specific user
+/// - GET /api/bookmark/check/{userId}/{restaurantId}: Check if a specific restaurant is bookmarked by a user
+/// - POST /api/bookmark: Create a new bookmark with validation to prevent duplicates
+/// - DELETE /api/bookmark/{userId}/{restaurantId}: Remove an existing bookmark
+/// 
+/// The controller performs validation including:
+/// - Confirming users and restaurants exist before operations
+/// - Preventing duplicate bookmarks
+/// - Validating bookmark data through model state validation
+/// - Verifying bookmark existence before removal attempts
+/// 
+/// All endpoints return appropriate HTTP status codes based on operation outcomes,
+/// following standard RESTful conventions for resource management.
+/// </remarks>
+
 using Microsoft.AspNetCore.Mvc;
 using RestaurantSolution.Model.Entities;
 using RestaurantSolution.Model.Repositories;

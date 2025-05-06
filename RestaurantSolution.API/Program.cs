@@ -1,3 +1,22 @@
+/// <summary>
+/// Program entry point and configuration for the Copenhagen Restaurant Explorer API.
+/// Sets up the ASP.NET Core application, configures services, and establishes the HTTP request pipeline.
+/// </summary>
+/// <remarks>
+/// Key configuration components:
+/// - Registers repository services using dependency injection with scoped lifetime
+/// - Configures Swagger/OpenAPI documentation with Basic Authentication support
+/// - Enables CORS for the Angular frontend (http://localhost:4200)
+/// - Sets up the HTTP request pipeline with appropriate middleware:
+///   - Swagger UI for API documentation (in Development environment only)
+///   - CORS middleware to handle cross-origin requests
+///   - Custom Basic Authentication middleware for securing API endpoints
+///   - Standard controller routing
+/// 
+/// This configuration establishes a RESTful API for restaurant exploration with
+/// authentication, documentation, and proper cross-origin resource sharing.
+/// </remarks>
+
 using RestaurantSolution.Model.Repositories;
 using RestaurantSolution.API.Middleware;
 using Microsoft.OpenApi.Models;
@@ -41,10 +60,10 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Register repositories
-builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<RestaurantRepository>();
-builder.Services.AddScoped<ReviewRepository>();
-builder.Services.AddScoped<BookmarkRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IBookmarkRepository, BookmarkRepository>();
 
 builder.Services.AddCors(options =>
 {

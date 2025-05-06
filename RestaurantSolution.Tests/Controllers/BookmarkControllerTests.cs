@@ -1,11 +1,31 @@
+/// <summary>
+/// Test class for validating the functionality of the RestaurantController.
+/// Ensures proper handling of restaurant retrieval operations including getting by ID and filtering.
+/// </summary>
+/// <remarks>
+/// Uses the MSTest framework with Moq for mocking repository dependencies.
+/// Tests cover the following scenarios:
+/// - Retrieving a restaurant by ID when it exists
+/// - Handling requests for non-existent restaurants
+/// - Filtering restaurants with no specified criteria
+/// 
+/// Each test follows the Arrange-Act-Assert pattern to clearly structure test logic.
+/// The class uses TestInitialize to set up the mocked repositories and controller instance
+/// before each test, ensuring isolated test environments.
+/// 
+/// These tests validate that the RestaurantController:
+/// - Returns appropriate HTTP status codes for different scenarios
+/// - Properly formats response objects
+/// - Communicates correctly with repository dependencies
+/// - Processes restaurant data correctly for client consumption
+/// </remarks>
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using RestaurantSolution.API.Controllers;
 using RestaurantSolution.Model.Entities;
 using RestaurantSolution.Model.Repositories;
-using System;
-using System.Collections.Generic;
 
 namespace RestaurantSolution.Tests.Controllers
 {

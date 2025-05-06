@@ -1,11 +1,31 @@
+/// <summary>
+/// Test class for validating the functionality of the ReviewController.
+/// Ensures proper handling of restaurant review operations including retrieval and creation.
+/// </summary>
+/// <remarks>
+/// Uses the MSTest framework with Moq for mocking repository dependencies.
+/// Tests cover the following scenarios:
+/// - Retrieving all reviews for a restaurant (both when restaurant exists and doesn't exist)
+/// - Retrieving a specific user's review for a restaurant
+/// - Creating new reviews with validation
+/// 
+/// Each test follows the Arrange-Act-Assert pattern to clearly structure test logic.
+/// The class uses TestInitialize to set up the mocked repositories and controller instance
+/// before each test, ensuring isolated test environments.
+/// 
+/// These tests validate that the ReviewController:
+/// - Returns appropriate HTTP status codes for different scenarios
+/// - Properly formats response objects
+/// - Communicates correctly with multiple repository dependencies
+/// - Validates entity existence before performing operations
+/// </remarks>
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using RestaurantSolution.API.Controllers;
 using RestaurantSolution.Model.Entities;
 using RestaurantSolution.Model.Repositories;
-using System;
-using System.Collections.Generic;
 
 namespace RestaurantSolution.Tests.Controllers
 {

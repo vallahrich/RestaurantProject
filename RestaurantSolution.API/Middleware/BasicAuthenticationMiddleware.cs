@@ -1,4 +1,20 @@
-using System.Text;
+/// <summary>
+/// Middleware component that implements Basic Authentication for the API.
+/// Intercepts HTTP requests and validates credentials before allowing access to protected endpoints.
+/// </summary>
+/// <remarks>
+/// This middleware:
+/// - Allows unauthenticated access to endpoints marked with [AllowAnonymous]
+/// - Checks for the presence of the Authorization header
+/// - Decodes and validates credentials against the user database
+/// - Stores authenticated user information in HttpContext.Items for downstream components
+/// - Returns appropriate 401 Unauthorized responses for invalid/missing credentials
+/// 
+/// The class follows the standard ASP.NET Core middleware pattern with constructor injection
+/// and an async Invoke method. It also provides an extension method for easy registration
+/// in the application's middleware pipeline.
+/// </remarks>
+
 using Microsoft.AspNetCore.Authorization;
 using RestaurantSolution.Model.Repositories;
 
@@ -12,7 +28,7 @@ namespace RestaurantSolution.API.Middleware
         public BasicAuthenticationMiddleware(RequestDelegate next, IServiceProvider serviceProvider)
         {
             _next = next;
-            _serviceProvider = serviceProvider;
+            _serviceProvider = serviceProvider; 
         }
         
         public async Task InvokeAsync(HttpContext context)
@@ -51,7 +67,7 @@ namespace RestaurantSolution.API.Middleware
             // 6. Check credentials against database
             using (var scope = _serviceProvider.CreateScope())
             {
-                var userRepository = scope.ServiceProvider.GetRequiredService<UserRepository>();
+                var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
                 
                 // Get user from database
                 var user = userRepository.GetUserByUsername(username);

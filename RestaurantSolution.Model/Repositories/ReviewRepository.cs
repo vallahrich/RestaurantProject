@@ -1,3 +1,20 @@
+/// <summary>
+/// Repository class that provides data access operations for Review entities.
+/// Handles database interactions for restaurant reviews including retrieving, creating, updating, and deleting review records.
+/// </summary>
+/// <remarks>
+/// Implements the IReviewRepository interface and inherits from BaseRepository.
+/// Uses Npgsql to connect to a PostgreSQL database and perform SQL operations.
+/// Provides methods for review management:
+/// - Retrieving all reviews for a specific restaurant
+/// - Retrieving a specific user's review for a restaurant
+/// - Creating new reviews
+/// - Updating existing reviews
+/// - Deleting reviews
+/// All database connections are automatically managed and disposed through 'using' statements.
+/// Reviews are secured by requiring user authentication for modifications (enforced with user_id checks).
+/// </remarks>
+
 using Microsoft.Extensions.Configuration;
 using RestaurantSolution.Model.Entities;
 using Npgsql;

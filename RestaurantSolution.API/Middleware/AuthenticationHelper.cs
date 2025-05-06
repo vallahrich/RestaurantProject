@@ -1,3 +1,21 @@
+/// <summary>
+/// Static utility class that provides methods for encoding and decoding HTTP Basic Authentication credentials.
+/// Implements the standard RFC 7617 Basic Authentication scheme.
+/// </summary>
+/// <remarks>
+/// Provides two primary functions:
+/// - Encrypt: Converts username and password into a properly formatted Basic Authentication header value
+/// - Decrypt: Extracts username and password from an existing Basic Authentication header value
+/// 
+/// The Basic Authentication format follows the pattern:
+/// 1. Concatenate username and password with a colon separator (username:password)
+/// 2. Encode the resulting string with Base64
+/// 3. Prefix with "Basic " to create the complete header value
+/// 
+/// Note: Basic Authentication sends credentials in Base64 encoding, which is NOT encryption.
+/// This should be used only with HTTPS to ensure secure transmission of credentials.
+/// </remarks>
+
 namespace RestaurantSolution.API.Middleware
 {
     public class AuthenticationHelper

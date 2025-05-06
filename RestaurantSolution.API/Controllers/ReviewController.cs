@@ -1,3 +1,24 @@
+/// <summary>
+/// Controller that handles restaurant review operations through a RESTful API interface.
+/// Provides endpoints for creating, retrieving, updating, and deleting restaurant reviews.
+/// </summary>
+/// <remarks>
+/// Exposes the following API endpoints:
+/// - GET /api/review/restaurant/{restaurantId}: Retrieve all reviews for a specific restaurant
+/// - GET /api/review/user/{userId}/restaurant/{restaurantId}: Get a user's specific review for a restaurant
+/// - POST /api/review: Create a new review with validation for one review per user per restaurant
+/// - PUT /api/review: Update an existing review
+/// - DELETE /api/review/user/{userId}/restaurant/{restaurantId}: Remove a user's review for a restaurant
+/// 
+/// The controller performs validation including:
+/// - Confirming users and restaurants exist before operations
+/// - Ensuring users can only have one review per restaurant
+/// - Verifying users can only modify their own reviews
+/// - Validating review data through model state validation
+/// 
+/// All endpoints use appropriate HTTP status codes for RESTful compliance.
+/// </remarks>
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantSolution.Model.Entities;

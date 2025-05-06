@@ -1,3 +1,20 @@
+/// <summary>
+/// Repository class that provides data access operations for User entities.
+/// Handles database interactions including retrieving, creating, updating, and deleting user records.
+/// </summary>
+/// <remarks>
+/// Implements the IUserRepository interface and inherits from BaseRepository.
+/// Uses Npgsql to connect to a PostgreSQL database and perform SQL operations.
+/// Provides methods for user authentication, verification, and profile management:
+/// - Retrieving users by ID or username
+/// - Creating new user accounts
+/// - Updating user information
+/// - Changing passwords
+/// - Deleting user accounts
+/// - Checking for username/email uniqueness
+/// All database connections are automatically managed and disposed through 'using' statements.
+/// </remarks>
+
 using Microsoft.Extensions.Configuration;
 using RestaurantSolution.Model.Entities;
 using Npgsql;
@@ -13,7 +30,7 @@ namespace RestaurantSolution.Model.Repositories
 
         public User GetUserById(int id)
         {
-            using var dbConn = new NpgsqlConnection(ConnectionString);
+            using var dbConn = new NpgsqlConnection(ConnectionString);  //using var statement automatically handles connection disposal
             var cmd = dbConn.CreateCommand();
             cmd.CommandText = "SELECT * FROM users WHERE user_id = @id";
             cmd.Parameters.Add("@id", NpgsqlDbType.Integer).Value = id;

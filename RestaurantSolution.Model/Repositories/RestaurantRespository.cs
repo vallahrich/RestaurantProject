@@ -1,3 +1,21 @@
+/// <summary>
+/// Repository class that provides data access operations for Restaurant entities.
+/// Handles database interactions for retrieving restaurant information with filtering capabilities.
+/// </summary>
+/// <remarks>
+/// Implements the IRestaurantRepository interface and inherits from BaseRepository.
+/// Uses Npgsql to connect to a PostgreSQL database and perform SQL operations.
+/// Key features:
+/// - Retrieving individual restaurants by ID
+/// - Advanced filtering of restaurants based on multiple criteria:
+///   - Neighborhood location (supports partial matching)
+///   - Cuisine types (supports partial matching)
+///   - Price ranges (L/M/H classification)
+///   - Dietary options (supports partial matching)
+/// The filtering system dynamically builds parameterized SQL queries based on provided filter criteria.
+/// All database connections are automatically managed and disposed through 'using' statements.
+/// </remarks>
+
 using Microsoft.Extensions.Configuration;
 using RestaurantSolution.Model.Entities;
 using Npgsql;

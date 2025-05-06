@@ -1,3 +1,25 @@
+/// <summary>
+/// Test class for validating the functionality of the UserController.
+/// Ensures proper handling of user-related API operations including retrieval, authentication, and registration.
+/// </summary>
+/// <remarks>
+/// Uses the MSTest framework with Moq for mocking repository dependencies.
+/// Tests cover the following scenarios:
+/// - User retrieval with both existing and non-existent users
+/// - Login authentication with valid and invalid credentials
+/// - User registration with validation for username uniqueness
+/// 
+/// Each test follows the Arrange-Act-Assert pattern to clearly structure test logic.
+/// The class uses TestInitialize to set up the mocked repository and controller instance
+/// before each test, ensuring isolated test environments.
+/// 
+/// These tests validate that the UserController:
+/// - Returns appropriate HTTP status codes for different scenarios
+/// - Properly formats response objects
+/// - Communicates correctly with the repository layer
+/// - Implements proper validation logic for user operations
+/// </remarks>
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

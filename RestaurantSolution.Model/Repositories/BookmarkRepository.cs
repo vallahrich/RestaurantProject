@@ -1,3 +1,20 @@
+/// <summary>
+/// Repository class that provides data access operations for Bookmark entities.
+/// Handles database interactions for saving, retrieving, and managing user bookmarks for restaurants.
+/// </summary>
+/// <remarks>
+/// Implements the IBookmarkRepository interface and inherits from BaseRepository.
+/// Uses Npgsql to connect to a PostgreSQL database and perform SQL operations.
+/// Key features:
+/// - Retrieving a user's bookmarks
+/// - Checking if a restaurant is bookmarked by a user
+/// - Adding new bookmarks
+/// - Removing existing bookmarks
+/// - Retrieving full restaurant details for bookmarked restaurants
+/// Supports personalized user experience by enabling favorite restaurant tracking.
+/// All database connections are automatically managed and disposed through 'using' statements.
+/// </remarks>
+
 using Microsoft.Extensions.Configuration;
 using RestaurantSolution.Model.Entities;
 using Npgsql;
